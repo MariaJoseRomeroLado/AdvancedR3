@@ -16,4 +16,7 @@ Imports:
 Encoding: UTF-8
 Title: AdvancedR3
 Suggests: 
+    gitcreds,
     usethis
+URL: https://github.com/wfs758/AdvancedR3
+BugReports: https://github.com/wfs758/AdvancedR3/issues
