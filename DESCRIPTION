@@ -22,3 +22,5 @@ Suggests:
     usethis
 URL: https://github.com/wfs758/AdvancedR3
 BugReports: https://github.com/wfs758/AdvancedR3/issues
+Depends: 
+    tidyverse
