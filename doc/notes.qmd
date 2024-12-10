@@ -4,9 +4,7 @@ author: "Your Name"
 format: html
 ---
 
-## Day 1
-
-### Basic statistics
+## Day 1 - Basic statistics
 
 ```{r setup}
 #| include: false
@@ -41,4 +39,3 @@ descriptive_stats <- function(data) {
     return(data)
 }
 ```
-
