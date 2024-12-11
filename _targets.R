@@ -66,8 +66,11 @@ list(
     )
 )
 
-# targets::tar_visnetwork()
+# > targets::tar_visnetwork()
 # displays on Viewer ; triangles are functions and circles the other things
 # when black means that it is up to date
+# > targets::tar_outdated()
+# if character(0) means that no changes to target have been made
+
 
 

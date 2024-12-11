@@ -39,3 +39,14 @@ descriptive_stats <- function(data) {
     return(data)
 }
 ```
+
+## Day 2 - Figure outputs
+
+To add package to DESCRIPTION do use_package("ggplot2")
+
+```{r}
+metabolite_distribution_plot <- ggplot(lipidomics, aes(x = value)) +
+  geom_histogram() +
+  facet_wrap(vars(metabolite), scales = "free")
+metabolite_distribution_plot
+```
