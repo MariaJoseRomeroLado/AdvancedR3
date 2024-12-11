@@ -5,7 +5,7 @@
 
 # Load packages required to define the pipeline:
 library(targets)
-# library(tarchetypes) # Load other packages as needed.
+library(tarchetypes) # Load other packages as needed.
 
 # Set target options:
 tar_option_set(
@@ -50,31 +50,26 @@ tar_source()
 
 # Replace the target list below with your own:
 list(
-    tar_target( # to keep track of the files - so that if the file changes then the pipeline runs
-        name = file,
-        command = "data/lipidomics.csv", # you do not need the here::here
-        format = "file"
-    ),
-    tar_target(
-        name = lipidomics,
-        # command = readr::read_csv(here::here("data/lipidomics.csv")) # this was needed bf when we had not defined the file
-        command = readr::read_csv(file, show_col_types = FALSE) # does not show warnings
-    ),
-    tar_target(
-        name = df_stats_by_metabolite,
-        command = descriptive_stats(lipidomics)
-    ),
-    tar_target(
-        name = fig_metabolite_distribution,
-        command = plot_distributions(lipidomics)
-    )
+  tar_target( # to keep track of the files - so that if the file changes then the pipeline runs
+    name = file,
+    command = "data/lipidomics.csv", # you do not need the here::here
+    format = "file"
+  ),
+  tar_target(
+    name = lipidomics,
+    # command = readr::read_csv(here::here("data/lipidomics.csv")) # this was needed bf when we had not defined the file
+    command = readr::read_csv(file, show_col_types = FALSE) # does not show warnings
+  ),
+  tar_target(
+    name = df_stats_by_metabolite,
+    command = descriptive_stats(lipidomics)
+  ),
+  tar_target(
+    name = fig_metabolite_distribution,
+    command = plot_distributions(lipidomics)
+  ),
+  tar_quarto(
+    name = quarto_doc,
+    path = "doc/learning.qmd"
+  )
 )
-
-# > targets::tar_visnetwork()
-# displays on Viewer ; triangles are functions and circles the other things
-# when black means that it is up to date
-# > targets::tar_outdated()
-# if character(0) means that no changes to target have been made
-
-
-
