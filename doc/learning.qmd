@@ -10,6 +10,8 @@ format: html
 targets::tar_config_set(store = here::here("_targets")) # here is used for relative paths
 library(tidyverse)
 library(targets)
+library(tidymodels)
+
 source(here::here("R/functions.R"))
 # lipidomics <- read_csv(here::here("data/lipidomics.csv"))
 lipidomics <- tar_read(lipidomics)
@@ -18,7 +20,10 @@ lipidomics <- tar_read(lipidomics)
 ## Results
 
 ```{r}
-tar_read(df_stats_by_metabolite)
+tar_read(df_stats_by_metabolite) %>% 
+    mutate(MeanSD = glue::glue("{value_mean} ({value_sd})")) %>% 
+    select(Metabolite = metabolite, `Mean SD` = MeanSD) %>% 
+    knitr::kable(caption = "Descriptive statistics of the metabolites.")
 ```
 
 ```{r}
