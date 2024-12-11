@@ -12,30 +12,3 @@ lipidomics <- read_csv(here::here("data/lipidomics.csv"))
 
 descriptive_stats(lipidomics)
 ```
-
-## Basic statistics
-
-```{r}
-#' For each metabolite calculates descriptive statistics 
-#'
-#' @param data The lipidomics data 
-#'
-#' @return A data.frame/tibble
-
-descriptive_stats <- function(data) {
-  data %>%
-    dplyr::group_by(metabolite) %>%
-    dplyr::summarise(dplyr::across( # given these columns do these actions
-        value, 
-        list(
-            mean = mean, 
-            sd = sd
-        )
-    )) %>% 
-    dplyr::mutate(dplyr::across(
-        tidyselect::where(is.numeric), 
-        ~round(.x, digits = 1)
-    ))
-    return(data)
-}
-```
