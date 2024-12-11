@@ -11,7 +11,7 @@ library(tidyverse)
 library(targets)
 source(here::here("R/functions.R"))
 # lipidomics <- read_csv(here::here("data/lipidomics.csv"))
-lipidomics <- tar_read(lipidomics.csv)
+lipidomics <- tar_read(lipidomics)
 ```
 
 ## Basic statistics
