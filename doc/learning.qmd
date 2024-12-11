@@ -1,12 +1,13 @@
 ---
-title: "Draft Quarto document"
-author: "Your Name"
+title: "Draft Quarto document - Advanced Reproductible Research in R"
+author: "María José Romero Lado"
 format: html
 ---
 
 ```{r setup}
 #| include: false
-targets::tar_config_set(store = here::here("_targets"))
+# the line below is correcting the path - as it is confusing for targets to find the quarto document inside doc folder ; it is saying go back one level and look in the _targets folder
+targets::tar_config_set(store = here::here("_targets")) # here is used for relative paths
 library(tidyverse)
 library(targets)
 source(here::here("R/functions.R"))
@@ -14,16 +15,12 @@ source(here::here("R/functions.R"))
 lipidomics <- tar_read(lipidomics)
 ```
 
-## Basic statistics
+## Results
 
 ```{r}
-# descriptive_stats(lipidomics)
 tar_read(df_stats_by_metabolite)
 ```
 
-## Figure outputs
-
 ```{r}
-# plot_distributions(lipidomics)
 tar_read(fig_metabolite_distribution)
 ```

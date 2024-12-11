@@ -16,9 +16,9 @@ descriptive_stats(lipidomics)
 ```
 
 ```{r}
-#' For each metabolite calculates descriptive statistics 
+#' For each metabolite calculates descriptive statistics
 #'
-#' @param data The lipidomics data 
+#' @param data The lipidomics data
 #'
 #' @return A data.frame/tibble
 
@@ -26,17 +26,17 @@ descriptive_stats <- function(data) {
   data %>%
     dplyr::group_by(metabolite) %>%
     dplyr::summarise(dplyr::across( # given these columns do these actions
-        value, 
-        list(
-            mean = mean, 
-            sd = sd
-        )
-    )) %>% 
+      value,
+      list(
+        mean = mean,
+        sd = sd
+      )
+    )) %>%
     dplyr::mutate(dplyr::across(
-        tidyselect::where(is.numeric), 
-        ~round(.x, digits = 1)
+      tidyselect::where(is.numeric),
+      ~ round(.x, digits = 1)
     ))
-    return(data)
+  return(data)
 }
 ```
 
@@ -62,6 +62,8 @@ metabolite_distribution_plot <- ggplot(lipidomics, aes(x = value)) +
 metabolite_distribution_plot
 ```
 
+### Important!!!
+
 When we use targets::tar_config_set(store = ...), it will create a new
 file in the doc/ folder called \_targets.yaml that contains details for
 telling targets where to find the store. Since the path listed in this
@@ -71,4 +73,18 @@ it into the Git history and instead put it in the .gitignore file. So
 let’s add it to ignore file by using:
 
 Console use_git_ignore("doc/\_targets.yaml")
+
+## Basic statistics
+
+```{r}
+# descriptive_stats(lipidomics)
+tar_read(df_stats_by_metabolite)
+```
+
+## Figure outputs
+
+```{r}
+# plot_distributions(lipidomics)
+tar_read(fig_metabolite_distribution)
+```
 
