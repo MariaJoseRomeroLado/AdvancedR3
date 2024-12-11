@@ -61,3 +61,14 @@ metabolite_distribution_plot <- ggplot(lipidomics, aes(x = value)) +
   facet_wrap(vars(metabolite), scales = "free")
 metabolite_distribution_plot
 ```
+
+When we use targets::tar_config_set(store = ...), it will create a new
+file in the doc/ folder called \_targets.yaml that contains details for
+telling targets where to find the store. Since the path listed in this
+new file is an absolute path, it will only ever work on your own
+computer. So, it improve reproducibility, it’s good practice to not put
+it into the Git history and instead put it in the .gitignore file. So
+let’s add it to ignore file by using:
+
+Console use_git_ignore("doc/\_targets.yaml")
+

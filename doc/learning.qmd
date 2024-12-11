@@ -6,19 +6,24 @@ format: html
 
 ```{r setup}
 #| include: false
+targets::tar_config_set(store = here::here("_targets"))
 library(tidyverse)
+library(targets)
 source(here::here("R/functions.R"))
-lipidomics <- read_csv(here::here("data/lipidomics.csv"))
+# lipidomics <- read_csv(here::here("data/lipidomics.csv"))
+lipidomics <- tar_read(lipidomics.csv)
 ```
 
 ## Basic statistics
 
 ```{r}
-descriptive_stats(lipidomics)
+# descriptive_stats(lipidomics)
+tar_read(df_stats_by_metabolite)
 ```
 
 ## Figure outputs
 
 ```{r}
-plot_distributions(lipidomics)
+# plot_distributions(lipidomics)
+tar_read(fig_metabolite_distribution)
 ```
