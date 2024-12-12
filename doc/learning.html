@@ -68,6 +68,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="learning_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="learning_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="learning_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="learning_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+<link href="learning_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+
+<script src="learning_files/libs/datatables-binding-0.31/datatables.js"></script>
+
+<script src="learning_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+
+<link href="learning_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<link href="learning_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+
+<script src="learning_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+
+<link href="learning_files/libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+
+<script src="learning_files/libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+
+<link href="learning_files/libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+
+<script src="learning_files/libs/selectize-0.12.0/selectize.min.js"></script>
+
+<link href="learning_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+
+<script src="learning_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+
 
 
 </head>
@@ -107,9 +133,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="results">Results</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(df_stats_by_metabolite) <span class="sc">|&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">MeanSD =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{value_mean} ({value_sd})"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="at">Metabolite =</span> metabolite, <span class="st">`</span><span class="at">Mean SD</span><span class="st">`</span> <span class="ot">=</span> MeanSD) <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Descriptive statistics of the metabolites."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MeanSD =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{value_mean} ({value_sd})"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">Metabolite =</span> metabolite, <span class="st">`</span><span class="at">Mean SD</span><span class="st">`</span> <span class="ot">=</span> MeanSD) <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Descriptive statistics of the metabolites."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Descriptive statistics of the metabolites.</caption>
@@ -172,15 +198,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
+<p>To create an interactive table you can use the DT library. See info here: https://rstudio.github.io/DT/</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(fig_metabolite_distribution)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(df_stats_by_metabolite) <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MeanSD =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">"{value_mean} ({value_sd})"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">Metabolite =</span> metabolite, <span class="st">`</span><span class="at">Mean SD</span><span class="st">`</span> <span class="ot">=</span> MeanSD) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">datatable</span>(<span class="at">filter =</span> <span class="st">"bottom"</span>, <span class="at">caption =</span> <span class="st">"Descriptive statistics of the metabolites."</span>, <span class="at">class =</span> <span class="st">"cell-border stripe"</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>, <span class="at">options =</span> <span class="fu">list</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">pageLength =</span> <span class="dv">5</span>, <span class="at">autoWidth =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-c48421071eaf709afb66" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-c48421071eaf709afb66">{"x":{"filter":"bottom","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","caption":"<caption>Descriptive statistics of the metabolites.<\/caption>","data":[["CDCl3 (solvent)","Cholesterol","FA -CH2CH2COO-","Lipid -CH2-","Lipid CH3- 1","Lipid CH3- 2","MUFA+PUFA","PUFA","Phosphatidycholine","Phosphatidylethanolamine","Phospholipids","TMS (interntal standard)"],["180 (67)","18.6 (11.4)","33.6 (7.8)","536.6 (61.9)","98.3 (73.8)","168.2 (29.2)","32.9 (16.1)","30 (24.1)","31.7 (20.5)","10 (7.6)","2.7 (2.6)","123 (130.4)"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Metabolite<\/th>\n      <th>Mean SD<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"autoWidth":true,"columnDefs":[{"name":"Metabolite","targets":0},{"name":"Mean SD","targets":1}],"order":[],"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(fig_metabolite_distribution)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="learning_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="learning_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -189,64 +228,726 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="building-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="building-the-model">Building the model</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lipidomics_wide <span class="ot">&lt;-</span> lipidomics <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># to make sure that the characters are understandable for the program</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">metabolite =</span> snakecase<span class="sc">::</span><span class="fu">to_snake_case</span>(metabolite)) <span class="sc">|&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">metabolites_to_wider</span>()</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>lipidomics_wide</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 36 × 16
-   code   gender   age class metabolite_tms_interntal_s…¹ metabolite_cholesterol
-   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;                        &lt;dbl&gt;                  &lt;dbl&gt;
- 1 ERI109 M         25 CT                           208.                   18.6 
- 2 ERI111 M         39 CT                           219.                   20.8 
- 3 ERI163 W         58 CT                            57.1                  15.5 
- 4 ERI375 M         24 CT                            19.2                  10.2 
- 5 ERI376 M         26 CT                            35.4                  13.5 
- 6 ERI391 M         31 CT                            30.4                   9.53
- 7 ERI392 M         24 CT                            21.7                   9.87
- 8 ERI79  W         26 CT                           185.                   17.6 
- 9 ERI81  M         52 CT                           207.                   17.0 
-10 ERI83  M         25 CT                           322.                   19.7 
-# ℹ 26 more rows
-# ℹ abbreviated name: ¹​metabolite_tms_interntal_standard
-# ℹ 10 more variables: metabolite_lipid_ch_3_1 &lt;dbl&gt;,
-#   metabolite_lipid_ch_3_2 &lt;dbl&gt;, metabolite_lipid_ch_2 &lt;dbl&gt;,
-#   metabolite_fa_ch_2_ch_2_coo &lt;dbl&gt;, metabolite_pufa &lt;dbl&gt;,
-#   metabolite_phosphatidylethanolamine &lt;dbl&gt;,
-#   metabolite_phosphatidycholine &lt;dbl&gt;, metabolite_phospholipids &lt;dbl&gt;, …</code></pre>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lipidomics_wide <span class="ot">&lt;-</span> lipidomics <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">metabolite =</span> snakecase<span class="sc">::</span><span class="fu">to_snake_case</span>(metabolite)) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">metabolites_to_wider</span>()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>lipidomics_wide <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Metabolites table - wide format."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Metabolites table - wide format.</caption>
+<colgroup>
+<col style="width: 2%">
+<col style="width: 2%">
+<col style="width: 1%">
+<col style="width: 1%">
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 4%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">code</th>
+<th style="text-align: left;">gender</th>
+<th style="text-align: right;">age</th>
+<th style="text-align: left;">class</th>
+<th style="text-align: right;">metabolite_tms_interntal_standard</th>
+<th style="text-align: right;">metabolite_cholesterol</th>
+<th style="text-align: right;">metabolite_lipid_ch_3_1</th>
+<th style="text-align: right;">metabolite_lipid_ch_3_2</th>
+<th style="text-align: right;">metabolite_lipid_ch_2</th>
+<th style="text-align: right;">metabolite_fa_ch_2_ch_2_coo</th>
+<th style="text-align: right;">metabolite_pufa</th>
+<th style="text-align: right;">metabolite_phosphatidylethanolamine</th>
+<th style="text-align: right;">metabolite_phosphatidycholine</th>
+<th style="text-align: right;">metabolite_phospholipids</th>
+<th style="text-align: right;">metabolite_mufa_pufa</th>
+<th style="text-align: right;">metabolite_cd_cl_3_solvent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ERI109</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">207.95144</td>
+<td style="text-align: right;">18.636720</td>
+<td style="text-align: right;">44.06950</td>
+<td style="text-align: right;">147.4582</td>
+<td style="text-align: right;">587.2346</td>
+<td style="text-align: right;">31.55712</td>
+<td style="text-align: right;">29.040173</td>
+<td style="text-align: right;">6.777678</td>
+<td style="text-align: right;">41.7348967</td>
+<td style="text-align: right;">5.5777717</td>
+<td style="text-align: right;">50.6399122</td>
+<td style="text-align: right;">165.80788</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI111</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">219.04818</td>
+<td style="text-align: right;">20.757738</td>
+<td style="text-align: right;">28.08528</td>
+<td style="text-align: right;">152.7667</td>
+<td style="text-align: right;">584.6039</td>
+<td style="text-align: right;">28.93475</td>
+<td style="text-align: right;">27.411139</td>
+<td style="text-align: right;">3.661131</td>
+<td style="text-align: right;">52.8732742</td>
+<td style="text-align: right;">6.1630394</td>
+<td style="text-align: right;">53.2275726</td>
+<td style="text-align: right;">171.33446</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI163</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">57.09802</td>
+<td style="text-align: right;">15.540112</td>
+<td style="text-align: right;">75.14302</td>
+<td style="text-align: right;">143.7555</td>
+<td style="text-align: right;">557.5320</td>
+<td style="text-align: right;">36.63717</td>
+<td style="text-align: right;">35.516770</td>
+<td style="text-align: right;">3.590269</td>
+<td style="text-align: right;">35.3375876</td>
+<td style="text-align: right;">5.1922493</td>
+<td style="text-align: right;">60.6751002</td>
+<td style="text-align: right;">262.06200</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI375</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">19.24966</td>
+<td style="text-align: right;">10.238400</td>
+<td style="text-align: right;">22.04044</td>
+<td style="text-align: right;">219.9965</td>
+<td style="text-align: right;">605.6596</td>
+<td style="text-align: right;">39.41096</td>
+<td style="text-align: right;">6.924999</td>
+<td style="text-align: right;">3.593630</td>
+<td style="text-align: right;">66.9307584</td>
+<td style="text-align: right;">4.1954533</td>
+<td style="text-align: right;">0.5323957</td>
+<td style="text-align: right;">172.19862</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI376</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">35.40993</td>
+<td style="text-align: right;">13.499701</td>
+<td style="text-align: right;">29.48651</td>
+<td style="text-align: right;">281.5122</td>
+<td style="text-align: right;">553.7559</td>
+<td style="text-align: right;">52.11723</td>
+<td style="text-align: right;">3.215868</td>
+<td style="text-align: right;">2.329587</td>
+<td style="text-align: right;">32.6667967</td>
+<td style="text-align: right;">3.2698923</td>
+<td style="text-align: right;">1.1469538</td>
+<td style="text-align: right;">300.34654</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI391</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">30.38528</td>
+<td style="text-align: right;">9.530094</td>
+<td style="text-align: right;">37.97448</td>
+<td style="text-align: right;">220.4855</td>
+<td style="text-align: right;">597.0192</td>
+<td style="text-align: right;">42.79689</td>
+<td style="text-align: right;">3.433924</td>
+<td style="text-align: right;">1.463113</td>
+<td style="text-align: right;">62.9228056</td>
+<td style="text-align: right;">4.7116735</td>
+<td style="text-align: right;">0.6020901</td>
+<td style="text-align: right;">241.03451</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI392</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">21.66237</td>
+<td style="text-align: right;">9.874968</td>
+<td style="text-align: right;">34.79990</td>
+<td style="text-align: right;">214.6001</td>
+<td style="text-align: right;">606.7358</td>
+<td style="text-align: right;">39.85618</td>
+<td style="text-align: right;">3.523310</td>
+<td style="text-align: right;">1.998184</td>
+<td style="text-align: right;">64.2973728</td>
+<td style="text-align: right;">4.1419273</td>
+<td style="text-align: right;">0.4223211</td>
+<td style="text-align: right;">172.21267</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI79</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">185.27287</td>
+<td style="text-align: right;">17.587022</td>
+<td style="text-align: right;">109.37314</td>
+<td style="text-align: right;">152.8091</td>
+<td style="text-align: right;">545.7308</td>
+<td style="text-align: right;">32.74223</td>
+<td style="text-align: right;">18.720812</td>
+<td style="text-align: right;">4.925701</td>
+<td style="text-align: right;">40.9601721</td>
+<td style="text-align: right;">5.7020108</td>
+<td style="text-align: right;">36.2749194</td>
+<td style="text-align: right;">147.55504</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI81</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">207.15005</td>
+<td style="text-align: right;">16.971648</td>
+<td style="text-align: right;">49.62480</td>
+<td style="text-align: right;">150.0387</td>
+<td style="text-align: right;">593.4210</td>
+<td style="text-align: right;">28.39400</td>
+<td style="text-align: right;">20.718959</td>
+<td style="text-align: right;">5.198734</td>
+<td style="text-align: right;">56.1280897</td>
+<td style="text-align: right;">5.4576592</td>
+<td style="text-align: right;">40.1031669</td>
+<td style="text-align: right;">167.52050</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI83</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">321.99421</td>
+<td style="text-align: right;">19.664978</td>
+<td style="text-align: right;">29.92410</td>
+<td style="text-align: right;">153.4298</td>
+<td style="text-align: right;">605.9696</td>
+<td style="text-align: right;">26.47227</td>
+<td style="text-align: right;">18.175909</td>
+<td style="text-align: right;">5.010872</td>
+<td style="text-align: right;">57.8458746</td>
+<td style="text-align: right;">4.8862839</td>
+<td style="text-align: right;">39.2902689</td>
+<td style="text-align: right;">253.42935</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI84</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">212.02159</td>
+<td style="text-align: right;">19.344437</td>
+<td style="text-align: right;">28.83709</td>
+<td style="text-align: right;">149.9987</td>
+<td style="text-align: right;">590.6798</td>
+<td style="text-align: right;">27.86858</td>
+<td style="text-align: right;">27.365335</td>
+<td style="text-align: right;">6.299954</td>
+<td style="text-align: right;">53.7796111</td>
+<td style="text-align: right;">6.2568894</td>
+<td style="text-align: right;">50.8807080</td>
+<td style="text-align: right;">172.54980</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI85</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">344.98568</td>
+<td style="text-align: right;">18.157023</td>
+<td style="text-align: right;">31.61780</td>
+<td style="text-align: right;">154.5860</td>
+<td style="text-align: right;">611.4634</td>
+<td style="text-align: right;">26.43361</td>
+<td style="text-align: right;">21.457381</td>
+<td style="text-align: right;">4.544179</td>
+<td style="text-align: right;">46.0348485</td>
+<td style="text-align: right;">5.1100340</td>
+<td style="text-align: right;">44.2816455</td>
+<td style="text-align: right;">265.12438</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI88</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">358.10549</td>
+<td style="text-align: right;">15.036785</td>
+<td style="text-align: right;">37.25183</td>
+<td style="text-align: right;">142.2619</td>
+<td style="text-align: right;">624.6350</td>
+<td style="text-align: right;">27.66810</td>
+<td style="text-align: right;">25.425691</td>
+<td style="text-align: right;">3.860645</td>
+<td style="text-align: right;">45.9458831</td>
+<td style="text-align: right;">4.7209367</td>
+<td style="text-align: right;">43.1196752</td>
+<td style="text-align: right;">259.60962</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI89</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">506.22130</td>
+<td style="text-align: right;">16.702292</td>
+<td style="text-align: right;">34.10419</td>
+<td style="text-align: right;">154.6183</td>
+<td style="text-align: right;">611.3601</td>
+<td style="text-align: right;">24.71943</td>
+<td style="text-align: right;">25.500471</td>
+<td style="text-align: right;">4.266378</td>
+<td style="text-align: right;">40.3996719</td>
+<td style="text-align: right;">5.0974110</td>
+<td style="text-align: right;">49.8271654</td>
+<td style="text-align: right;">396.22105</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI90</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">195.33329</td>
+<td style="text-align: right;">19.469967</td>
+<td style="text-align: right;">31.98369</td>
+<td style="text-align: right;">155.5878</td>
+<td style="text-align: right;">588.1523</td>
+<td style="text-align: right;">27.90788</td>
+<td style="text-align: right;">24.598271</td>
+<td style="text-align: right;">5.039018</td>
+<td style="text-align: right;">55.1680452</td>
+<td style="text-align: right;">5.7898727</td>
+<td style="text-align: right;">47.3632756</td>
+<td style="text-align: right;">156.97544</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI93</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">45</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">294.10008</td>
+<td style="text-align: right;">19.613392</td>
+<td style="text-align: right;">27.04834</td>
+<td style="text-align: right;">149.8746</td>
+<td style="text-align: right;">587.2509</td>
+<td style="text-align: right;">28.29290</td>
+<td style="text-align: right;">31.387760</td>
+<td style="text-align: right;">7.636717</td>
+<td style="text-align: right;">47.4288823</td>
+<td style="text-align: right;">6.1161858</td>
+<td style="text-align: right;">56.1235195</td>
+<td style="text-align: right;">233.92999</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI96</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">335.60706</td>
+<td style="text-align: right;">17.583666</td>
+<td style="text-align: right;">73.67928</td>
+<td style="text-align: right;">157.7801</td>
+<td style="text-align: right;">564.3937</td>
+<td style="text-align: right;">29.73728</td>
+<td style="text-align: right;">25.716532</td>
+<td style="text-align: right;">12.275329</td>
+<td style="text-align: right;">29.8922009</td>
+<td style="text-align: right;">4.8994389</td>
+<td style="text-align: right;">48.8751711</td>
+<td style="text-align: right;">268.25846</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI97</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: left;">CT</td>
+<td style="text-align: right;">161.04407</td>
+<td style="text-align: right;">20.230378</td>
+<td style="text-align: right;">44.96264</td>
+<td style="text-align: right;">154.0939</td>
+<td style="text-align: right;">580.9135</td>
+<td style="text-align: right;">29.99505</td>
+<td style="text-align: right;">20.404863</td>
+<td style="text-align: right;">5.733339</td>
+<td style="text-align: right;">53.7156484</td>
+<td style="text-align: right;">5.6091329</td>
+<td style="text-align: right;">43.8808154</td>
+<td style="text-align: right;">112.84132</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI140</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">23.95142</td>
+<td style="text-align: right;">13.854453</td>
+<td style="text-align: right;">184.59427</td>
+<td style="text-align: right;">136.9078</td>
+<td style="text-align: right;">501.2753</td>
+<td style="text-align: right;">36.40472</td>
+<td style="text-align: right;">25.843010</td>
+<td style="text-align: right;">22.164073</td>
+<td style="text-align: right;">24.0106093</td>
+<td style="text-align: right;">0.0930028</td>
+<td style="text-align: right;">27.1438576</td>
+<td style="text-align: right;">84.62576</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI142</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">21.47911</td>
+<td style="text-align: right;">15.403307</td>
+<td style="text-align: right;">206.80936</td>
+<td style="text-align: right;">143.1548</td>
+<td style="text-align: right;">469.7202</td>
+<td style="text-align: right;">42.41548</td>
+<td style="text-align: right;">15.065444</td>
+<td style="text-align: right;">23.588807</td>
+<td style="text-align: right;">30.6740570</td>
+<td style="text-align: right;">0.0255504</td>
+<td style="text-align: right;">22.3364195</td>
+<td style="text-align: right;">70.76032</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI143</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">68.61007</td>
+<td style="text-align: right;">8.926450</td>
+<td style="text-align: right;">161.62310</td>
+<td style="text-align: right;">134.9824</td>
+<td style="text-align: right;">578.4681</td>
+<td style="text-align: right;">29.61574</td>
+<td style="text-align: right;">20.689100</td>
+<td style="text-align: right;">11.478453</td>
+<td style="text-align: right;">4.3146933</td>
+<td style="text-align: right;">0.0205095</td>
+<td style="text-align: right;">32.0285491</td>
+<td style="text-align: right;">204.03966</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI144</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">15.66870</td>
+<td style="text-align: right;">18.733984</td>
+<td style="text-align: right;">219.59521</td>
+<td style="text-align: right;">152.6555</td>
+<td style="text-align: right;">443.9826</td>
+<td style="text-align: right;">41.87047</td>
+<td style="text-align: right;">16.706587</td>
+<td style="text-align: right;">20.029449</td>
+<td style="text-align: right;">28.2792578</td>
+<td style="text-align: right;">0.1165000</td>
+<td style="text-align: right;">20.5624357</td>
+<td style="text-align: right;">108.00161</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI145</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">20.16805</td>
+<td style="text-align: right;">16.794858</td>
+<td style="text-align: right;">207.83479</td>
+<td style="text-align: right;">154.8820</td>
+<td style="text-align: right;">465.9769</td>
+<td style="text-align: right;">40.06884</td>
+<td style="text-align: right;">24.860814</td>
+<td style="text-align: right;">16.913304</td>
+<td style="text-align: right;">16.1848444</td>
+<td style="text-align: right;">0.1323593</td>
+<td style="text-align: right;">22.7615869</td>
+<td style="text-align: right;">132.73120</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI146</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">21.12471</td>
+<td style="text-align: right;">17.939506</td>
+<td style="text-align: right;">210.27067</td>
+<td style="text-align: right;">156.9611</td>
+<td style="text-align: right;">457.0749</td>
+<td style="text-align: right;">46.05683</td>
+<td style="text-align: right;">13.976177</td>
+<td style="text-align: right;">19.345575</td>
+<td style="text-align: right;">20.4331083</td>
+<td style="text-align: right;">-0.0265442</td>
+<td style="text-align: right;">22.0897233</td>
+<td style="text-align: right;">110.05584</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI147</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">18.18714</td>
+<td style="text-align: right;">15.920275</td>
+<td style="text-align: right;">229.01046</td>
+<td style="text-align: right;">160.4712</td>
+<td style="text-align: right;">469.4159</td>
+<td style="text-align: right;">44.27318</td>
+<td style="text-align: right;">13.880026</td>
+<td style="text-align: right;">9.845923</td>
+<td style="text-align: right;">4.7429574</td>
+<td style="text-align: right;">0.1251987</td>
+<td style="text-align: right;">20.4743677</td>
+<td style="text-align: right;">160.91209</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI149</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">19.88836</td>
+<td style="text-align: right;">15.225413</td>
+<td style="text-align: right;">256.61945</td>
+<td style="text-align: right;">160.1324</td>
+<td style="text-align: right;">447.1896</td>
+<td style="text-align: right;">49.48127</td>
+<td style="text-align: right;">15.445343</td>
+<td style="text-align: right;">7.644669</td>
+<td style="text-align: right;">0.7281904</td>
+<td style="text-align: right;">0.0378666</td>
+<td style="text-align: right;">17.0449674</td>
+<td style="text-align: right;">167.34217</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI150</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">102.28644</td>
+<td style="text-align: right;">28.657581</td>
+<td style="text-align: right;">72.35569</td>
+<td style="text-align: right;">187.3560</td>
+<td style="text-align: right;">541.4485</td>
+<td style="text-align: right;">28.53204</td>
+<td style="text-align: right;">19.564956</td>
+<td style="text-align: right;">2.299062</td>
+<td style="text-align: right;">21.0663227</td>
+<td style="text-align: right;">0.7114700</td>
+<td style="text-align: right;">40.6932584</td>
+<td style="text-align: right;">93.52207</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI151</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">45.31635</td>
+<td style="text-align: right;">30.713597</td>
+<td style="text-align: right;">47.66954</td>
+<td style="text-align: right;">187.2016</td>
+<td style="text-align: right;">482.1423</td>
+<td style="text-align: right;">20.46056</td>
+<td style="text-align: right;">97.962758</td>
+<td style="text-align: right;">19.282642</td>
+<td style="text-align: right;">10.2867316</td>
+<td style="text-align: right;">0.1622902</td>
+<td style="text-align: right;">42.6907189</td>
+<td style="text-align: right;">195.05100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI152</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">153.69166</td>
+<td style="text-align: right;">20.565009</td>
+<td style="text-align: right;">72.97750</td>
+<td style="text-align: right;">186.4417</td>
+<td style="text-align: right;">574.0127</td>
+<td style="text-align: right;">30.84415</td>
+<td style="text-align: right;">14.133863</td>
+<td style="text-align: right;">5.099053</td>
+<td style="text-align: right;">29.2789583</td>
+<td style="text-align: right;">0.5953364</td>
+<td style="text-align: right;">24.9217014</td>
+<td style="text-align: right;">141.77323</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI153</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">31.16313</td>
+<td style="text-align: right;">22.743538</td>
+<td style="text-align: right;">135.54604</td>
+<td style="text-align: right;">169.2758</td>
+<td style="text-align: right;">469.0026</td>
+<td style="text-align: right;">31.28621</td>
+<td style="text-align: right;">58.842942</td>
+<td style="text-align: right;">21.684169</td>
+<td style="text-align: right;">15.8254904</td>
+<td style="text-align: right;">0.0967434</td>
+<td style="text-align: right;">30.2093405</td>
+<td style="text-align: right;">160.91076</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI154</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">37</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">34.08628</td>
+<td style="text-align: right;">27.339384</td>
+<td style="text-align: right;">90.13034</td>
+<td style="text-align: right;">178.9154</td>
+<td style="text-align: right;">478.8075</td>
+<td style="text-align: right;">25.52991</td>
+<td style="text-align: right;">62.670772</td>
+<td style="text-align: right;">23.784853</td>
+<td style="text-align: right;">18.9000613</td>
+<td style="text-align: right;">0.1341445</td>
+<td style="text-align: right;">39.1088802</td>
+<td style="text-align: right;">137.06248</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI155</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">38.95584</td>
+<td style="text-align: right;">28.617775</td>
+<td style="text-align: right;">45.49979</td>
+<td style="text-align: right;">176.0251</td>
+<td style="text-align: right;">494.3857</td>
+<td style="text-align: right;">19.14775</td>
+<td style="text-align: right;">91.973621</td>
+<td style="text-align: right;">25.787908</td>
+<td style="text-align: right;">19.7992619</td>
+<td style="text-align: right;">0.1042940</td>
+<td style="text-align: right;">41.4232912</td>
+<td style="text-align: right;">166.07216</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI156</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">30.81262</td>
+<td style="text-align: right;">21.286351</td>
+<td style="text-align: right;">174.81073</td>
+<td style="text-align: right;">170.7051</td>
+<td style="text-align: right;">444.8425</td>
+<td style="text-align: right;">38.41475</td>
+<td style="text-align: right;">66.308901</td>
+<td style="text-align: right;">11.903011</td>
+<td style="text-align: right;">3.6893836</td>
+<td style="text-align: right;">0.0263383</td>
+<td style="text-align: right;">25.4402542</td>
+<td style="text-align: right;">161.48135</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI157</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">27.23900</td>
+<td style="text-align: right;">23.089053</td>
+<td style="text-align: right;">155.47446</td>
+<td style="text-align: right;">174.8345</td>
+<td style="text-align: right;">461.9634</td>
+<td style="text-align: right;">34.55068</td>
+<td style="text-align: right;">68.702820</td>
+<td style="text-align: right;">5.570482</td>
+<td style="text-align: right;">0.8343650</td>
+<td style="text-align: right;">0.0798075</td>
+<td style="text-align: right;">28.7223571</td>
+<td style="text-align: right;">175.12967</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ERI158</td>
+<td style="text-align: left;">W</td>
+<td style="text-align: right;">33</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">20.76449</td>
+<td style="text-align: right;">23.542404</td>
+<td style="text-align: right;">148.66561</td>
+<td style="text-align: right;">187.6354</td>
+<td style="text-align: right;">488.3164</td>
+<td style="text-align: right;">33.24644</td>
+<td style="text-align: right;">12.396897</td>
+<td style="text-align: right;">19.191238</td>
+<td style="text-align: right;">7.1321904</td>
+<td style="text-align: right;">0.1440333</td>
+<td style="text-align: right;">32.6445726</td>
+<td style="text-align: right;">136.74306</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ERI159</td>
+<td style="text-align: left;">M</td>
+<td style="text-align: right;">29</td>
+<td style="text-align: left;">T1D</td>
+<td style="text-align: right;">22.84377</td>
+<td style="text-align: right;">23.098717</td>
+<td style="text-align: right;">148.71299</td>
+<td style="text-align: right;">180.5041</td>
+<td style="text-align: right;">454.2216</td>
+<td style="text-align: right;">36.95645</td>
+<td style="text-align: right;">73.504244</td>
+<td style="text-align: right;">7.221432</td>
+<td style="text-align: right;">2.7154121</td>
+<td style="text-align: right;">0.0634325</td>
+<td style="text-align: right;">26.8041655</td>
+<td style="text-align: right;">154.92299</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </section>
 <section id="running-multiple-models" class="level2">
 <h2 class="anchored" data-anchor-id="running-multiple-models">Running multiple models</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>lipidomics <span class="sc">|&gt;</span> </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">calculate_estimates</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: glm.fit: algorithm did not converge</code></pre>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lipidomics |&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#     calculate_estimates() |&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     knitr::kable(caption = "Model: T1D = metabolite + age + gender")</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>model_estimates <span class="ot">&lt;-</span> <span class="fu">tar_read</span>(df_model_estimates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
+</section>
+<section id="visualizing-the-model-estimates" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-the-model-estimates">Visualizing the model estimates</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tar_read</span>(fig_model_estimates)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="learning_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 12 × 6
-   term                         metabolite  estimate std.error statistic p.value
-   &lt;chr&gt;                        &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
- 1 metabolite_tms_interntal_st… TMS (inte… 5.62e-  2   9.90e-1 -2.91     0.00363
- 2 metabolite_cholesterol       Cholester… 2.97e+  0   4.58e-1  2.38     0.0175 
- 3 metabolite_lipid_ch_3_1      Lipid CH3… 4.45e+  1   1.41e+0  2.70     0.00697
- 4 metabolite_lipid_ch_3_2      Lipid CH3… 8.85e-  1   3.61e-1 -0.339    0.734  
- 5 metabolite_lipid_ch_2        Lipid -CH… 2.59e-  3   3.14e+0 -1.90     0.0578 
- 6 metabolite_fa_ch_2_ch_2_coo  FA -CH2CH… 1.52e+  0   3.87e-1  1.09     0.276  
- 7 metabolite_pufa              PUFA       3.27e+  0   5.60e-1  2.11     0.0345 
- 8 metabolite_phosphatidyletha… Phosphati… 2.69e+  1   1.32e+0  2.49     0.0129 
- 9 metabolite_phosphatidycholi… Phosphati… 1.28e-120   1.17e+5 -0.00237  0.998  
-10 metabolite_phospholipids     Phospholi… 2.39e- 19   6.90e+4 -0.000622 1.00   
-11 metabolite_mufa_pufa         MUFA+PUFA  4.56e-  1   4.49e-1 -1.75     0.0798 
-12 metabolite_cd_cl_3_solvent   CDCl3 (so… 8.70e-  2   8.65e-1 -2.82     0.00475</code></pre>
 </div>
 </div>
 </section>

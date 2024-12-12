@@ -21,9 +21,21 @@ lipidomics <- tar_read(lipidomics)
 
 ```{r}
 tar_read(df_stats_by_metabolite) |>
-    mutate(MeanSD = glue::glue("{value_mean} ({value_sd})")) |>
-    select(Metabolite = metabolite, `Mean SD` = MeanSD) |>
-    knitr::kable(caption = "Descriptive statistics of the metabolites.")
+  mutate(MeanSD = glue::glue("{value_mean} ({value_sd})")) |>
+  select(Metabolite = metabolite, `Mean SD` = MeanSD) |>
+  knitr::kable(caption = "Descriptive statistics of the metabolites.")
+```
+
+To create an interactive table you can use the DT library. See info
+here: https://rstudio.github.io/DT/
+
+```{r}
+tar_read(df_stats_by_metabolite) |>
+  mutate(MeanSD = glue::glue("{value_mean} ({value_sd})")) |>
+  select(Metabolite = metabolite, `Mean SD` = MeanSD) |>
+  DT::datatable(filter = "bottom", caption = "Descriptive statistics of the metabolites.", class = "cell-border stripe", rownames = FALSE, options = list(
+    pageLength = 5, autoWidth = TRUE
+  ))
 ```
 
 ```{r}
@@ -34,15 +46,24 @@ tar_read(fig_metabolite_distribution)
 
 ```{r}
 lipidomics_wide <- lipidomics |>
-    # to make sure that the characters are understandable for the program
-    mutate(metabolite = snakecase::to_snake_case(metabolite)) |>
-    metabolites_to_wider()
-lipidomics_wide
+  mutate(metabolite = snakecase::to_snake_case(metabolite)) |>
+  metabolites_to_wider()
+
+lipidomics_wide |>
+  knitr::kable(caption = "Metabolites table - wide format.")
 ```
 
 ## Running multiple models
 
 ```{r}
-lipidomics |> 
-    calculate_estimates()
+# lipidomics |>
+#     calculate_estimates() |>
+#     knitr::kable(caption = "Model: T1D = metabolite + age + gender")
+model_estimates <- tar_read(df_model_estimates)
+```
+
+## Visualizing the model estimates
+
+```{r}
+tar_read(fig_model_estimates)
 ```

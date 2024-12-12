@@ -4,6 +4,7 @@ Version: 0.0.1
 Imports:
     broom,
     dplyr,
+    DT,
     fs,
     ggplot2,
     here,
